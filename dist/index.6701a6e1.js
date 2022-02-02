@@ -949,7 +949,7 @@ var _indexScss = require("./index.scss");
 class MyFlixApplication extends _reactDefault.default.Component {
     render() {
         return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
-            classname: "my-flix",
+            className: "my-flix",
             __source: {
                 fileName: "src/index.jsx",
                 lineNumber: 8
