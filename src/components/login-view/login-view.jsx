@@ -1,5 +1,7 @@
 import react, {useState} from "react"; //imports react {useState} hook
 import propTypes from "prop-types"; //imports prop-types
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import './login-view.scss';
 
 export function LoginView(props) { //exports loginView function component for use outside of login-view.jsx
@@ -22,18 +24,18 @@ export function LoginView(props) { //exports loginView function component for us
 
     };
     return ( //Creates form for user input with buttons to submit login credentials or switch to registrationView for new user
-        <form> 
-            <label>
-                Username:
-                <input type='text' value={username} onChange={e => setUsername(e.target.value)} />
-            </label>
-            <label>
-                Password:
-                <input type='password' value={password} onChange={e=> setPassword(e.target.value)} />
-            </label>
-            <button type='submit' onClick={handleSubmit}>Submit</button> 
-            <button type='submit' onClick={handleRegister}>Sign Up</button>
-        </form>
+        <Form> 
+            <Form.Group controlId="formUsername">
+                <Form.Label>Username</Form.Label>
+                <Form.Control type="text" onChange={e => setUsername(e.target.value)}/>
+            </Form.Group>
+            <Form.Group controlId="formPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control type="text" onChange={e => setPassword(e.target.value)}/>
+            </Form.Group>
+            <Button variant="primary" type='submit' onClick={handleSubmit}>Submit</Button> 
+            <Button variant="primary" type='submit' onClick={handleRegister}>Sign Up</Button>
+        </Form>
     )
 }
 
