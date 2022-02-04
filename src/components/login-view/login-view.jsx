@@ -33,8 +33,9 @@ export function LoginView(props) { //exports loginView function component for us
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="text" onChange={e => setPassword(e.target.value)}/>
             </Form.Group>
-            <Button variant="primary" type='submit' onClick={handleSubmit}>Submit</Button> 
-            <Button variant="primary" type='submit' onClick={handleRegister}>Sign Up</Button>
+            <Button className="Btn-bg m-2" variant="primary" type='submit' onClick={handleSubmit}>Submit</Button> 
+            <Button className="Btn-bg m-2" variant="primary" type='submit' onClick={handleRegister}>Sign Up</Button>
+            
         </Form>
     )
 }

@@ -1,5 +1,7 @@
 import react, {useState} from "react"; //imports React {useState} hook
 import propTypes from "prop-types"; //imports prop-types
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import './registration-view.scss';
 
 export function RegistraionView(props) { //Exports RegistrationView for use outside of registration-view.jsx
@@ -19,25 +21,25 @@ export function RegistraionView(props) { //Exports RegistrationView for use outs
     };
 
     return ( //Creates for for user to input registration information and creates a button to register and switch to loginView. Button currently only switches between views, does not register user
-        <form>
-            <label>
-                Username:
-                <input type='text' value={username} onChange={e => setUsername(e.target.value)} />
-            </label>
-            <label>
-                Password:
-                <input type='password' value={password} onChange={e=> setPassword(e.target.value)} />
-            </label>
-            <label>
-                Email:
-                <input type='email' value={password} onChange={e=> setEmail(e.target.value)} />
-            </label>
-            <label>
-                Birthday:
-                <input type='date' value={password} onChange={e=> setBirthday(e.target.value)} />
-            </label>
-            <button type='submit' onClick={handleSubmit}>Submit</button>
-        </form>
+        <Form>
+            <Form.Group controlId="formUsername">
+                <Form.Label>Username</Form.Label>
+                <Form.Control type="text" onChange={e => setUsername(e.target.value)}/>
+            </Form.Group>
+            <Form.Group controlId="formPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control type="text" onChange={e => setPassword(e.target.value)}/>
+            </Form.Group>
+            <Form.Group controlId="Email">
+                <Form.Label>Email</Form.Label>
+                <Form.Control type="email" onChange={e => setEmail(e.target.value)}/>
+            </Form.Group>
+            <Form.Group controlId="formDate">
+                <Form.Label>Birthday</Form.Label>
+                <Form.Control type="date" onChange={e => setBirthday(e.target.value)}/>
+            </Form.Group>
+            <Button className="Btn-bg m-2" variant="primary" type='submit' onClick={handleSubmit}>Submit</Button>
+        </Form>
     )
 }
 

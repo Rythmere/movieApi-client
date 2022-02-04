@@ -1,5 +1,7 @@
 import react from 'react'; //Imports react
 import axios from 'axios'; //Imports axios
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import './main-view.scss';
 import { LoginView } from '../login-view/login-view'; //Imports LoginView component
 import { RegistraionView } from '../registration-view/registration-view'; //imports registrationView component
@@ -58,11 +60,22 @@ export class MainView extends react.Component { // Exports MainView component fo
         if (movies.length === 0) { return <div className='main-view'/>;}  // checks if there is movie data in the movies object.
        
         return (
-                <div className='main-view'>
+                <Row className='main-view justify-content-md-center'>
                     {selectedMovie
-                        ? <MovieView movie={selectedMovie} onBackClick={newSelectedMovie=> {this.setSelectedMovie(newSelectedMovie);}}/>
-                        : movies.map(movie=> <MovieCard key={movie._id} movie={movie} onMovieClick={(movie)=> {this.setSelectedMovie(movie); }}/>)} 
-                </div>
+                        ? (
+                                <Col md={6}>
+                                <MovieView movie={selectedMovie} onBackClick={newSelectedMovie=> {this.setSelectedMovie(newSelectedMovie);}}/>
+                                </Col>
+                        )
+                        : 
+                          movies.map(movie=> (
+                                <Col  md={4} className='my-2'>
+                            <MovieCard key={movie._id} movie={movie} onMovieClick={(movie)=> {this.setSelectedMovie(movie); }}/>
+                                </Col>
+                            ))} 
+                            
+                        
+                </Row>
             ); // renders MovieCard component for each movie in the movies object, allows user to click a MovieCard component to switch to MovieView component
         }
 }

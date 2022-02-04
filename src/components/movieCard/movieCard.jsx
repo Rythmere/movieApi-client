@@ -7,17 +7,16 @@ import './movieCard.scss';
 export class MovieCard extends react.Component { //Exports MovieCard component for use outside movieCard.jsx
     render() {
         const {movie, onMovieClick} = this.props;
-
+        let Description = movie.Description;
+        let Display = Description.substr(0,100);
         return (
-            <Card>
+            <Card bg='dark' text='light' className='h-100'>
                 <Card.Img variant='top' src={movie.ImagePath} />
                 <Card.Body>
                     <Card.Title>{movie.Title}</Card.Title>
-                    <Card.Text>{movie.Description}</Card.Text>
-                    <Button onClick={()=> onMovieClick(movie)} variant='link'>open</Button>
+                    <Card.Text>{Display}</Card.Text>
+                    <Button className='Btn-bg' onClick={()=> onMovieClick(movie)} variant='primary' >open</Button>
                 </Card.Body>
-        
-        <div className='movie-card' onClick={()=> {onMovieClick(movie);}}>{movie.Title}</div>
         </Card>
         );
     } // Listens for a click from user, to switch to MovieView component and renders MovieCard component to list out movies

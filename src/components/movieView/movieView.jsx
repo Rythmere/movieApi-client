@@ -1,23 +1,29 @@
 import react from "react"; //Imports React
 import propTypes from "prop-types"; //Imports Prop-Types
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 import './movieView.scss';
 
 export class MovieView extends react.Component { //Exports MovieView for use outside movieView.jsx
     render() {
         const {movie, onBackClick} = this.props;
         return (
-            <div className="movie-view">
-                <div className="movie-poster">
-                    <img src={movie.ImagePath}/>
-                </div>
-                <div className="movie-title">
-                    <span className="label">Title: </span>
-                    <span className="value">{movie.Title}</span>
-                </div>
-                <div className="movie-description">
-                    <span className="label">Description: </span>
-                    <span className="value">{movie.Description}</span>
-                </div>
+
+            <Card bg='dark' text='light'>
+                <Card.Img variant='top' src={movie.ImagePath} />
+                <Card.Body>
+                    <Card.Title>{movie.Title}</Card.Title>
+                    <Card.Text>{movie.Description}</Card.Text>
+                    <Card.Title>Director: {movie.Director.Name}</Card.Title>
+                    <Card.Text>Bio: {movie.Director.Bio}</Card.Text>
+                    <Card.Text>Birthyear: {movie.Director.Birth}</Card.Text>
+                    <Card.Title>Genre: {movie.Genre.Name}</Card.Title>
+                    <Card.Text>{movie.Genre.Description}</Card.Text>
+
+                    <Button className="Btn-bg" onClick={()=> onBackClick(null)} variant='primary'>Back</Button>
+                </Card.Body>
+        </Card>
+          /*  <div className="movie-view">
                 <div className="movie-Director">
                     <span className="label">Director: </span>
                     <span className="value">{movie.Director.Name}</span>
@@ -39,7 +45,7 @@ export class MovieView extends react.Component { //Exports MovieView for use out
                     <span className="value">{movie.Genre.Description}</span>
                 </div>
                 <button onClick={()=> {onBackClick(null); }}>Back</button>
-            </div>
+            </div> */
         ); // renders specific movie data when called in MainView and creates a back button returning to MovieCard component upon user click
     }
 }
