@@ -3,9 +3,10 @@ import axios from "axios";
 import propTypes from "prop-types"; //imports prop-types
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import './registration-view.scss';
 
-export function RegistrationView(props) { //Exports RegistrationView for use outside of registration-view.jsx
+
+
+export function UserUpdate(props) { //Exports RegistrationView for use outside of registration-view.jsx
     const [ username, setUsername] = useState('');
     const [ password, setPassword] = useState('');
     const [ email, setEmail] = useState('');
@@ -13,6 +14,9 @@ export function RegistrationView(props) { //Exports RegistrationView for use out
     const [passwordErr, setPasswordErr] = useState('');
     const [emailErr, setEmailErr] = useState('');
     const [birthday, setBirthday] = useState(''); //Sets up states for user input
+    
+    
+
     const validate = () => {
         let isReq = true;
         const isAlphaNumeric = /^([0-9]|[a-z])+([0-9a-z]+)$/i;
@@ -44,17 +48,17 @@ export function RegistrationView(props) { //Exports RegistrationView for use out
         e.preventDefault();
         const isReq = validate();
         if(isReq) {
-        axios.post('https://myflixbdg.herokuapp.com/users', {
+        axios.put(`https://myflixbdg.herokuapp.com/users/${props.user}`, {
             Username: username,
             Password: password,
             Email: email,
             Birthday: birthday
-        }).then(response => {
+        }, {headers: {Authorization: `Bearer ${props.token}`}}).then(response => {
             const data = response.data;
-            console.log(data);
+            localStorage.setItem('user', username)
             window.open('/' , '_self');
         }).catch(e => {
-            console.log('Error registering user')
+            console.log('Error changing user')
         });
         }
     };
@@ -84,4 +88,3 @@ export function RegistrationView(props) { //Exports RegistrationView for use out
         </Form>
     )
 }
-
