@@ -17,7 +17,7 @@ export class ProfileView extends React.Component { //Exports MovieView for use o
         window.open('/', '_self');
     }
     render() {
-        const { movie, userData, token, onBackClick} = this.props;
+        const {  userData, token, onBackClick} = this.props;
         return (
 
             <Card bg='dark' text='light'>

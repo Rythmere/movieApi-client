@@ -11,7 +11,7 @@ export class MovieCard extends React.Component { //Exports MovieCard component f
     
 
     render() {
-        const {movie, token, user, userData} = this.props;
+        const {movie} = this.props;
         let Description = movie.Description;
         let Display = Description.substr(0,100);
         return (
