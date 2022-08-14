@@ -10,7 +10,7 @@ import './movieView.scss';
 function MovieView(props) { //Exports MovieView for use outside movieView.jsx 
     const {movie, user, token, userData, onBackClick, update} = props;
 
-    isFavourited = (userData, movie) => {
+   const isFavourited = (userData, movie) => {
         console.log(userData);
         console.log(movie);
         if(userData.Favourites.includes(movie)) {
@@ -54,9 +54,9 @@ function MovieView(props) { //Exports MovieView for use outside movieView.jsx
                     <Button className="Btn-bg" variant="primary">Genre: {movie.Genre.Name}</Button>
                     </Link>
                     <br/>
-                    {this.isFavourited(userData, movie._id) && 
+                    {isFavourited(userData, movie._id) && 
                     <Button className="Btn-bg" variant="primary" type="submit" onClick={() => this.removeFavourite( token, movie._id, user) } >Remove</Button>}
-                    {!this.isFavourited(userData, movie._id) && 
+                    {!isFavourited(userData, movie._id) && 
                     <Button className="Btn-bg" variant="primary" type="submit" onClick={() => this.addFavourite( token, movie._id, user)} >Favourite</Button>}
                     <Button className="Btn-bg"  variant='primary'  onClick={onBackClick}>Back</Button>
                 </Card.Body>
