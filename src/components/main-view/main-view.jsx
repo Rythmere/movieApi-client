@@ -7,10 +7,10 @@ import  Container  from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import MoviesList from '../Movies-List/Movies-List';
-import { MovieCard } from '../movieCard/movieCard';
+import FavouriteList from '../../Favourites-list/favourites-list';
 import { NavBarView } from '../navbar/navbar-view';
 import { LoginView } from '../login-view/login-view'; //Imports LoginView component
-import { MovieView } from '../movieView/movieView'; // Imports MovieView component
+import  MovieView  from '../movieView/movieView'; // Imports MovieView component
 import { RegistrationView } from '../registration-view/registration-view'; //imports registrationView component
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
@@ -72,16 +72,6 @@ import './main-view.scss';
         localStorage.setItem('user', authData.user.Username);
         this.getMovies(authData.token);
     }
-
-    
-
-    Favourites(userData, movie) {
-        if (userData.Favourites.includes(movie) === true) {
-            return true;
-        } else {
-            return false
-        }
-    }
     
     update = () => {
         let accessToken = localStorage.getItem('token');
@@ -117,7 +107,7 @@ import './main-view.scss';
                     }}/>
                     <Route path='/movies/:movieId' render={({match, history}) =>{
                         return <Col md={6}>
-                            <MovieView token={token} movie={movies.find(movie => movie._id === match.params.movieId)} onBackClick={() => history.goBack()} user={user} userData={userData} update={this.update} />
+                            <MovieView token={token} movie={movies.find(movie => movie._id === match.params.movieId)} user={user} userData={userData} update={this.update} onBackClick={() => history.goBack()} />
                         </Col>
                     }} />
                     <Route path='/movies-director/:name' render={({match, history}) =>{
@@ -135,13 +125,7 @@ import './main-view.scss';
                         return ( <> <Col md={12}>
                             <ProfileView movies={movies} userData={userData} token={token} onBackClick={()=> history.goBack()}/>
                             </Col>
-                            {movies.map(movie=> (
-                            <Col md={3} key={movie._id}>
-                            {this.Favourites(userData, movie._id) &&
-                                <MovieCard movie={movie} />}
-                                
-                            </Col>
-                        ))}
+                                <FavouriteList movies={movies} userData={userData} /> 
                        </>);
                         
                     }}/>

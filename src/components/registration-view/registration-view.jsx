@@ -68,7 +68,7 @@ export function RegistrationView(props) { //Exports RegistrationView for use out
             </Form.Group>
             <Form.Group controlId="formPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="text" placeholder='Enter Password' value={password} onChange={e => setPassword(e.target.value)}/>
+                <Form.Control type="password" placeholder='Enter Password' value={password} onChange={e => setPassword(e.target.value)}/>
                 {passwordErr && <p>{passwordErr}</p>}
             </Form.Group>
             <Form.Group controlId="Email">

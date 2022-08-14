@@ -3,13 +3,16 @@ import axios from "axios";
 import propTypes from "prop-types"; //Imports Prop-Types
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 import './movieView.scss';
 
-export class MovieView extends React.Component { //Exports MovieView for use outside movieView.jsx 
-    
-    
-    isFavourited(userData, movie) {
+function MovieView(props) { //Exports MovieView for use outside movieView.jsx 
+    const {movie, user, token, userData, onBackClick, update} = props;
+
+    isFavourited = (userData, movie) => {
+        console.log(userData);
+        console.log(movie);
         if(userData.Favourites.includes(movie)) {
             return true;
         } else {
@@ -17,27 +20,26 @@ export class MovieView extends React.Component { //Exports MovieView for use out
         }
     }
 
-    addFavourite(token, movieId, user) {
+    addFavourite = (token, movieId, user) => {
         axios.post(`https://myflixbdg.herokuapp.com/users/${user}/movies/${movieId}`, {},
          {headers:{Authorization: `Bearer ${token}`}
         }).then(() => {
-            this.props.update()
+            update()
           })
         
         
     }
 
-    removeFavourite(token, movieId, user) {
+    removeFavourite = (token, movieId, user) => {
         axios.delete(`https://myflixbdg.herokuapp.com/users/${user}/movies/${movieId}`, {
             headers: {Authorization: `Bearer ${token}`}
         }).then(() => {
-          this.props.update()
+          update()
         })
        
         
     }
-    render() {
-        const {movie, user, token, userData, onBackClick} = this.props;
+    
         return (
 
             <Card bg='dark' text='light'>
@@ -62,7 +64,6 @@ export class MovieView extends React.Component { //Exports MovieView for use out
         
         ); // renders specific movie data when called in MainView and creates a back button returning to MovieCard component upon user click
     }
-}
 
 MovieView.propTypes = {
     movie: propTypes.shape({
@@ -82,3 +83,10 @@ MovieView.propTypes = {
     }).isRequired,
 };
 
+let mapStateToProps = state => {
+    return { movies: state.movies,
+             user: state.user,
+            userData: state.userData,
+            token: state.token}
+}
+export default connect(mapStateToProps)(MovieView);

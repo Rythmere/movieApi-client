@@ -56,7 +56,7 @@ export function LoginView(props) { //exports loginView function component for us
             </Form.Group>
             <Form.Group controlId="formPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="text" placeholder='Enter Password' value={password} onChange={e => setPassword(e.target.value)}/>
+                <Form.Control type="password" placeholder='Enter Password' value={password} onChange={e => setPassword(e.target.value)}/>
                 {passwordErr && <p>{passwordErr}</p>}
             </Form.Group>
             <Button className="Btn-bg m-2" variant="primary" type='submit' onClick={handleSubmit}>Submit</Button> 
