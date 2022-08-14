@@ -20,7 +20,7 @@ function MovieView(props) { //Exports MovieView for use outside movieView.jsx
         }
     }
 
-    addFavourite = (token, movieId, user) => {
+   const addFavourite = (token, movieId, user) => {
         axios.post(`https://myflixbdg.herokuapp.com/users/${user}/movies/${movieId}`, {},
          {headers:{Authorization: `Bearer ${token}`}
         }).then(() => {
@@ -30,7 +30,7 @@ function MovieView(props) { //Exports MovieView for use outside movieView.jsx
         
     }
 
-    removeFavourite = (token, movieId, user) => {
+  const  removeFavourite = (token, movieId, user) => {
         axios.delete(`https://myflixbdg.herokuapp.com/users/${user}/movies/${movieId}`, {
             headers: {Authorization: `Bearer ${token}`}
         }).then(() => {
