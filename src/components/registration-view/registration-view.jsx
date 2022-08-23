@@ -51,7 +51,6 @@ export function RegistrationView(props) { //Exports RegistrationView for use out
             Birthday: birthday
         }).then(response => {
             const data = response.data;
-            console.log(data);
             window.open('/' , '_self');
         }).catch(e => {
             console.log('Error registering user')

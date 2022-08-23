@@ -22974,17 +22974,18 @@ class MainView extends _reactDefault.default.Component {
         });
     }
     onLoggedIn(authData) {
-        console.log(authData);
         this.props.setUser(authData.user.Username);
+        this.props.setToken(authData.token);
         localStorage.setItem('token', authData.token);
         localStorage.setItem('user', authData.user.Username);
         this.getMovies(authData.token);
+        this.getUserData(authData.token, authData.user.Username);
     }
-    update = ()=>{
+    update() {
         let accessToken = localStorage.getItem('token');
         let userName = localStorage.getItem('user');
         this.getUserData(accessToken, userName);
-    };
+    }
     render() {
         const { movies , user , userData , token  } = this.props;
         return(/*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.BrowserRouter, {
@@ -23063,12 +23064,10 @@ class MainView extends _reactDefault.default.Component {
                                     return(/*#__PURE__*/ _jsxRuntime.jsx(_colDefault.default, {
                                         md: 6,
                                         children: /*#__PURE__*/ _jsxRuntime.jsx(_movieViewDefault.default, {
-                                            token: token,
                                             movie: movies.find((movie)=>movie._id === match.params.movieId
                                             ),
                                             user: user,
-                                            userData: userData,
-                                            update: this.update,
+                                            update: this.update(),
                                             onBackClick: ()=>history.goBack()
                                         })
                                     }));
@@ -23216,31 +23215,32 @@ var _cardDefault = parcelHelpers.interopDefault(_card);
 var _reactRedux = require("react-redux");
 var _reactRouterDom = require("react-router-dom");
 var _movieViewScss = require("./movieView.scss");
+const mapStateToProps = (state)=>{
+    const { userData , token  } = state;
+    return {
+        userData,
+        token
+    };
+};
 function MovieView(props) {
-    const { movie , user , token , userData , onBackClick , update  } = props;
-    isFavourited = (userData1, movie1)=>{
-        console.log(userData1);
-        console.log(movie1);
-        if (userData1.Favourites.includes(movie1)) return true;
+    const { movie , user , token , userData , onBackClick  } = props;
+    const isFavourited = ()=>{
+        if (userData.Favourites.includes(movie._id)) return true;
         else return false;
     };
-    addFavourite = (token1, movieId, user1)=>{
+    const addFavourite = (movieId, user1)=>{
         _axiosDefault.default.post(`https://myflixbdg.herokuapp.com/users/${user1}/movies/${movieId}`, {
         }, {
             headers: {
-                Authorization: `Bearer ${token1}`
+                Authorization: `Bearer ${token}`
             }
-        }).then(()=>{
-            update();
         });
     };
-    removeFavourite = (token1, movieId, user1)=>{
+    const removeFavourite = (movieId, user1)=>{
         _axiosDefault.default.delete(`https://myflixbdg.herokuapp.com/users/${user1}/movies/${movieId}`, {
             headers: {
-                Authorization: `Bearer ${token1}`
+                Authorization: `Bearer ${token}`
             }
-        }).then(()=>{
-            update();
         });
     };
     return(/*#__PURE__*/ _jsxRuntime.jsxs(_cardDefault.default, {
@@ -23248,7 +23248,7 @@ function MovieView(props) {
         text: "light",
         __source: {
             fileName: "src/components/movieView/movieView.jsx",
-            lineNumber: 45
+            lineNumber: 43
         },
         __self: this,
         children: [
@@ -23257,21 +23257,21 @@ function MovieView(props) {
                 src: movie.ImagePath,
                 __source: {
                     fileName: "src/components/movieView/movieView.jsx",
-                    lineNumber: 46
+                    lineNumber: 44
                 },
                 __self: this
             }),
             /*#__PURE__*/ _jsxRuntime.jsxs(_cardDefault.default.Body, {
                 __source: {
                     fileName: "src/components/movieView/movieView.jsx",
-                    lineNumber: 47
+                    lineNumber: 45
                 },
                 __self: this,
                 children: [
                     /*#__PURE__*/ _jsxRuntime.jsx(_cardDefault.default.Title, {
                         __source: {
                             fileName: "src/components/movieView/movieView.jsx",
-                            lineNumber: 48
+                            lineNumber: 46
                         },
                         __self: this,
                         children: movie.Title
@@ -23279,7 +23279,7 @@ function MovieView(props) {
                     /*#__PURE__*/ _jsxRuntime.jsx(_cardDefault.default.Text, {
                         __source: {
                             fileName: "src/components/movieView/movieView.jsx",
-                            lineNumber: 49
+                            lineNumber: 47
                         },
                         __self: this,
                         children: movie.Description
@@ -23288,7 +23288,7 @@ function MovieView(props) {
                         to: `/movies-director/${movie.Director.Name}`,
                         __source: {
                             fileName: "src/components/movieView/movieView.jsx",
-                            lineNumber: 50
+                            lineNumber: 48
                         },
                         __self: this,
                         children: /*#__PURE__*/ _jsxRuntime.jsxs(_buttonDefault.default, {
@@ -23296,7 +23296,7 @@ function MovieView(props) {
                             variant: "primary",
                             __source: {
                                 fileName: "src/components/movieView/movieView.jsx",
-                                lineNumber: 51
+                                lineNumber: 49
                             },
                             __self: this,
                             children: [
@@ -23309,7 +23309,7 @@ function MovieView(props) {
                         to: `/movies-genre/${movie.Genre.Name}`,
                         __source: {
                             fileName: "src/components/movieView/movieView.jsx",
-                            lineNumber: 53
+                            lineNumber: 51
                         },
                         __self: this,
                         children: /*#__PURE__*/ _jsxRuntime.jsxs(_buttonDefault.default, {
@@ -23317,7 +23317,7 @@ function MovieView(props) {
                             variant: "primary",
                             __source: {
                                 fileName: "src/components/movieView/movieView.jsx",
-                                lineNumber: 54
+                                lineNumber: 52
                             },
                             __self: this,
                             children: [
@@ -23329,32 +23329,32 @@ function MovieView(props) {
                     /*#__PURE__*/ _jsxRuntime.jsx("br", {
                         __source: {
                             fileName: "src/components/movieView/movieView.jsx",
-                            lineNumber: 56
+                            lineNumber: 54
                         },
                         __self: this
                     }),
-                    this.isFavourited(userData, movie._id) && /*#__PURE__*/ _jsxRuntime.jsx(_buttonDefault.default, {
+                    isFavourited() && /*#__PURE__*/ _jsxRuntime.jsx(_buttonDefault.default, {
                         className: "Btn-bg",
                         variant: "primary",
                         type: "submit",
-                        onClick: ()=>this.removeFavourite(token, movie._id, user)
+                        onClick: ()=>removeFavourite(movie._id, user)
                         ,
                         __source: {
                             fileName: "src/components/movieView/movieView.jsx",
-                            lineNumber: 58
+                            lineNumber: 56
                         },
                         __self: this,
                         children: "Remove"
                     }),
-                    !this.isFavourited(userData, movie._id) && /*#__PURE__*/ _jsxRuntime.jsx(_buttonDefault.default, {
+                    !isFavourited() && /*#__PURE__*/ _jsxRuntime.jsx(_buttonDefault.default, {
                         className: "Btn-bg",
                         variant: "primary",
                         type: "submit",
-                        onClick: ()=>this.addFavourite(token, movie._id, user)
+                        onClick: ()=>addFavourite(movie._id, user)
                         ,
                         __source: {
                             fileName: "src/components/movieView/movieView.jsx",
-                            lineNumber: 60
+                            lineNumber: 58
                         },
                         __self: this,
                         children: "Favourite"
@@ -23365,7 +23365,7 @@ function MovieView(props) {
                         onClick: onBackClick,
                         __source: {
                             fileName: "src/components/movieView/movieView.jsx",
-                            lineNumber: 61
+                            lineNumber: 59
                         },
                         __self: this,
                         children: "Back"
@@ -23392,14 +23392,6 @@ MovieView.propTypes = {
         }),
         Featured: _propTypesDefault.default.bool.isRequired
     }).isRequired
-};
-let mapStateToProps = (state)=>{
-    return {
-        movies: state.movies,
-        user: state.user,
-        userData: state.userData,
-        token: state.token
-    };
 };
 exports.default = _reactRedux.connect(mapStateToProps)(MovieView);
 var _c;
@@ -30667,7 +30659,6 @@ function RegistrationView(props) {
             Birthday: birthday
         }).then((response)=>{
             const data = response.data;
-            console.log(data);
             window.open('/', '_self');
         }).catch((e1)=>{
             console.log('Error registering user');
@@ -30676,7 +30667,7 @@ function RegistrationView(props) {
     return(/*#__PURE__*/ _jsxRuntime.jsxs(_formDefault.default, {
         __source: {
             fileName: "src/components/registration-view/registration-view.jsx",
-            lineNumber: 63
+            lineNumber: 62
         },
         __self: this,
         children: [
@@ -30684,14 +30675,14 @@ function RegistrationView(props) {
                 controlId: "formUsername",
                 __source: {
                     fileName: "src/components/registration-view/registration-view.jsx",
-                    lineNumber: 64
+                    lineNumber: 63
                 },
                 __self: this,
                 children: [
                     /*#__PURE__*/ _jsxRuntime.jsx(_formDefault.default.Label, {
                         __source: {
                             fileName: "src/components/registration-view/registration-view.jsx",
-                            lineNumber: 65
+                            lineNumber: 64
                         },
                         __self: this,
                         children: "Username"
@@ -30704,14 +30695,14 @@ function RegistrationView(props) {
                         ,
                         __source: {
                             fileName: "src/components/registration-view/registration-view.jsx",
-                            lineNumber: 66
+                            lineNumber: 65
                         },
                         __self: this
                     }),
                     usernameErr && /*#__PURE__*/ _jsxRuntime.jsx("p", {
                         __source: {
                             fileName: "src/components/registration-view/registration-view.jsx",
-                            lineNumber: 67
+                            lineNumber: 66
                         },
                         __self: this,
                         children: usernameErr
@@ -30722,14 +30713,14 @@ function RegistrationView(props) {
                 controlId: "formPassword",
                 __source: {
                     fileName: "src/components/registration-view/registration-view.jsx",
-                    lineNumber: 69
+                    lineNumber: 68
                 },
                 __self: this,
                 children: [
                     /*#__PURE__*/ _jsxRuntime.jsx(_formDefault.default.Label, {
                         __source: {
                             fileName: "src/components/registration-view/registration-view.jsx",
-                            lineNumber: 70
+                            lineNumber: 69
                         },
                         __self: this,
                         children: "Password"
@@ -30742,14 +30733,14 @@ function RegistrationView(props) {
                         ,
                         __source: {
                             fileName: "src/components/registration-view/registration-view.jsx",
-                            lineNumber: 71
+                            lineNumber: 70
                         },
                         __self: this
                     }),
                     passwordErr && /*#__PURE__*/ _jsxRuntime.jsx("p", {
                         __source: {
                             fileName: "src/components/registration-view/registration-view.jsx",
-                            lineNumber: 72
+                            lineNumber: 71
                         },
                         __self: this,
                         children: passwordErr
@@ -30760,14 +30751,14 @@ function RegistrationView(props) {
                 controlId: "Email",
                 __source: {
                     fileName: "src/components/registration-view/registration-view.jsx",
-                    lineNumber: 74
+                    lineNumber: 73
                 },
                 __self: this,
                 children: [
                     /*#__PURE__*/ _jsxRuntime.jsx(_formDefault.default.Label, {
                         __source: {
                             fileName: "src/components/registration-view/registration-view.jsx",
-                            lineNumber: 75
+                            lineNumber: 74
                         },
                         __self: this,
                         children: "Email"
@@ -30780,14 +30771,14 @@ function RegistrationView(props) {
                         ,
                         __source: {
                             fileName: "src/components/registration-view/registration-view.jsx",
-                            lineNumber: 76
+                            lineNumber: 75
                         },
                         __self: this
                     }),
                     emailErr && /*#__PURE__*/ _jsxRuntime.jsx("p", {
                         __source: {
                             fileName: "src/components/registration-view/registration-view.jsx",
-                            lineNumber: 77
+                            lineNumber: 76
                         },
                         __self: this,
                         children: emailErr
@@ -30798,14 +30789,14 @@ function RegistrationView(props) {
                 controlId: "formDate",
                 __source: {
                     fileName: "src/components/registration-view/registration-view.jsx",
-                    lineNumber: 79
+                    lineNumber: 78
                 },
                 __self: this,
                 children: [
                     /*#__PURE__*/ _jsxRuntime.jsx(_formDefault.default.Label, {
                         __source: {
                             fileName: "src/components/registration-view/registration-view.jsx",
-                            lineNumber: 80
+                            lineNumber: 79
                         },
                         __self: this,
                         children: "Birthday"
@@ -30816,7 +30807,7 @@ function RegistrationView(props) {
                         ,
                         __source: {
                             fileName: "src/components/registration-view/registration-view.jsx",
-                            lineNumber: 81
+                            lineNumber: 80
                         },
                         __self: this
                     })
@@ -30829,7 +30820,7 @@ function RegistrationView(props) {
                 onClick: handleSubmit,
                 __source: {
                     fileName: "src/components/registration-view/registration-view.jsx",
-                    lineNumber: 83
+                    lineNumber: 82
                 },
                 __self: this,
                 children: "Submit"
@@ -42629,7 +42620,6 @@ var _reactRedux = require("react-redux");
 var _movieCard = require("../components/movieCard/movieCard");
 function FavouriteList(props) {
     const { movies , userData  } = props;
-    console.log(userData);
     let filteredMovies = movies.filter((m)=>userData.Favourites.includes(m._id)
     );
     return(/*#__PURE__*/ _jsxRuntime.jsx(_jsxRuntime.Fragment, {
@@ -42637,14 +42627,14 @@ function FavouriteList(props) {
                 md: 3,
                 __source: {
                     fileName: "src/Favourites-list/favourites-list.jsx",
-                    lineNumber: 12
+                    lineNumber: 11
                 },
                 __self: this,
                 children: /*#__PURE__*/ _jsxRuntime.jsx(_movieCard.MovieCard, {
                     movie: movie,
                     __source: {
                         fileName: "src/Favourites-list/favourites-list.jsx",
-                        lineNumber: 13
+                        lineNumber: 12
                     },
                     __self: this
                 })

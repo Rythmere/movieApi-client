@@ -65,15 +65,15 @@ import './main-view.scss';
     }
 
     onLoggedIn(authData) { //Sets user state
-        console.log(authData);
         this.props.setUser(authData.user.Username);
-
+        this.props.setToken(authData.token);
         localStorage.setItem('token', authData.token);
         localStorage.setItem('user', authData.user.Username);
         this.getMovies(authData.token);
+        this.getUserData(authData.token, authData.user.Username);
     }
     
-    update = () => {
+    update() {
         let accessToken = localStorage.getItem('token');
         let userName = localStorage.getItem('user');
         this.getUserData(accessToken, userName);
@@ -107,7 +107,7 @@ import './main-view.scss';
                     }}/>
                     <Route path='/movies/:movieId' render={({match, history}) =>{
                         return <Col md={6}>
-                            <MovieView token={token} movie={movies.find(movie => movie._id === match.params.movieId)} user={user} userData={userData} update={this.update} onBackClick={() => history.goBack()} />
+                            <MovieView movie={movies.find(movie => movie._id === match.params.movieId)} user={user} update={this.update()} onBackClick={() => history.goBack()} />
                         </Col>
                     }} />
                     <Route path='/movies-director/:name' render={({match, history}) =>{

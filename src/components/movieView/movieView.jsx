@@ -7,34 +7,32 @@ import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 import './movieView.scss';
 
-function MovieView(props) { //Exports MovieView for use outside movieView.jsx 
-    const {movie, user, token, userData, onBackClick, update} = props;
+const mapStateToProps = state => {
+    const {userData, token} = state;
+    return { userData, token};
+};
 
-   const isFavourited = (userData, movie) => {
-        console.log(userData);
-        console.log(movie);
-        if(userData.Favourites.includes(movie)) {
+function MovieView(props) { //Exports MovieView for use outside movieView.jsx 
+    const {movie, user, token, userData, onBackClick} = props;
+   const isFavourited = () => {
+        if(userData.Favourites.includes(movie._id)) {
             return true;
         } else {
             return false;
         }
-    }
+    };
 
-   const addFavourite = (token, movieId, user) => {
+   const addFavourite = (movieId, user) => {
         axios.post(`https://myflixbdg.herokuapp.com/users/${user}/movies/${movieId}`, {},
          {headers:{Authorization: `Bearer ${token}`}
-        }).then(() => {
-            update()
-          })
+        })
         
         
     }
 
-  const  removeFavourite = (token, movieId, user) => {
+  const  removeFavourite = (movieId, user) => {
         axios.delete(`https://myflixbdg.herokuapp.com/users/${user}/movies/${movieId}`, {
             headers: {Authorization: `Bearer ${token}`}
-        }).then(() => {
-          update()
         })
        
         
@@ -54,10 +52,10 @@ function MovieView(props) { //Exports MovieView for use outside movieView.jsx
                     <Button className="Btn-bg" variant="primary">Genre: {movie.Genre.Name}</Button>
                     </Link>
                     <br/>
-                    {isFavourited(userData, movie._id) && 
-                    <Button className="Btn-bg" variant="primary" type="submit" onClick={() => this.removeFavourite( token, movie._id, user) } >Remove</Button>}
-                    {!isFavourited(userData, movie._id) && 
-                    <Button className="Btn-bg" variant="primary" type="submit" onClick={() => this.addFavourite( token, movie._id, user)} >Favourite</Button>}
+                    {isFavourited() && 
+                    <Button className="Btn-bg" variant="primary" type="submit" onClick={() => removeFavourite( movie._id, user) } >Remove</Button>}
+                    {!isFavourited() && 
+                    <Button className="Btn-bg" variant="primary" type="submit" onClick={() => addFavourite( movie._id, user)} >Favourite</Button>}
                     <Button className="Btn-bg"  variant='primary'  onClick={onBackClick}>Back</Button>
                 </Card.Body>
         </Card>
@@ -83,10 +81,4 @@ MovieView.propTypes = {
     }).isRequired,
 };
 
-let mapStateToProps = state => {
-    return { movies: state.movies,
-             user: state.user,
-            userData: state.userData,
-            token: state.token}
-}
 export default connect(mapStateToProps)(MovieView);
