@@ -107,7 +107,7 @@ import './main-view.scss';
                     }}/>
                     <Route path='/movies/:movieId' render={({match, history}) =>{
                         return <Col md={6}>
-                            <MovieView movie={movies.find(movie => movie._id === match.params.movieId)} user={user} update={this.update()} onBackClick={() => history.goBack()} />
+                            <MovieView movie={movies.find(movie => movie._id === match.params.movieId)} user={user} update={this.update} onBackClick={() => history.goBack()} />
                         </Col>
                     }} />
                     <Route path='/movies-director/:name' render={({match, history}) =>{

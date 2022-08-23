@@ -13,7 +13,7 @@ const mapStateToProps = state => {
 };
 
 function MovieView(props) { //Exports MovieView for use outside movieView.jsx 
-    const {movie, user, token, userData, onBackClick} = props;
+    const {movie, user, token, userData, onBackClick, update} = props;
    const isFavourited = () => {
         if(userData.Favourites.includes(movie._id)) {
             return true;
@@ -25,7 +25,9 @@ function MovieView(props) { //Exports MovieView for use outside movieView.jsx
    const addFavourite = (movieId, user) => {
         axios.post(`https://myflixbdg.herokuapp.com/users/${user}/movies/${movieId}`, {},
          {headers:{Authorization: `Bearer ${token}`}
-        })
+        }).then(() => {
+            update()
+          })
         
         
     }
@@ -33,6 +35,8 @@ function MovieView(props) { //Exports MovieView for use outside movieView.jsx
   const  removeFavourite = (movieId, user) => {
         axios.delete(`https://myflixbdg.herokuapp.com/users/${user}/movies/${movieId}`, {
             headers: {Authorization: `Bearer ${token}`}
+        }).then(() => {
+          update()
         })
        
         

@@ -23067,7 +23067,7 @@ class MainView extends _reactDefault.default.Component {
                                             movie: movies.find((movie)=>movie._id === match.params.movieId
                                             ),
                                             user: user,
-                                            update: this.update(),
+                                            update: this.update,
                                             onBackClick: ()=>history.goBack()
                                         })
                                     }));
@@ -23223,7 +23223,7 @@ const mapStateToProps = (state)=>{
     };
 };
 function MovieView(props) {
-    const { movie , user , token , userData , onBackClick  } = props;
+    const { movie , user , token , userData , onBackClick , update  } = props;
     const isFavourited = ()=>{
         if (userData.Favourites.includes(movie._id)) return true;
         else return false;
@@ -23234,6 +23234,8 @@ function MovieView(props) {
             headers: {
                 Authorization: `Bearer ${token}`
             }
+        }).then(()=>{
+            update();
         });
     };
     const removeFavourite = (movieId, user1)=>{
@@ -23241,6 +23243,8 @@ function MovieView(props) {
             headers: {
                 Authorization: `Bearer ${token}`
             }
+        }).then(()=>{
+            update();
         });
     };
     return(/*#__PURE__*/ _jsxRuntime.jsxs(_cardDefault.default, {
@@ -23248,7 +23252,7 @@ function MovieView(props) {
         text: "light",
         __source: {
             fileName: "src/components/movieView/movieView.jsx",
-            lineNumber: 43
+            lineNumber: 47
         },
         __self: this,
         children: [
@@ -23257,21 +23261,21 @@ function MovieView(props) {
                 src: movie.ImagePath,
                 __source: {
                     fileName: "src/components/movieView/movieView.jsx",
-                    lineNumber: 44
+                    lineNumber: 48
                 },
                 __self: this
             }),
             /*#__PURE__*/ _jsxRuntime.jsxs(_cardDefault.default.Body, {
                 __source: {
                     fileName: "src/components/movieView/movieView.jsx",
-                    lineNumber: 45
+                    lineNumber: 49
                 },
                 __self: this,
                 children: [
                     /*#__PURE__*/ _jsxRuntime.jsx(_cardDefault.default.Title, {
                         __source: {
                             fileName: "src/components/movieView/movieView.jsx",
-                            lineNumber: 46
+                            lineNumber: 50
                         },
                         __self: this,
                         children: movie.Title
@@ -23279,7 +23283,7 @@ function MovieView(props) {
                     /*#__PURE__*/ _jsxRuntime.jsx(_cardDefault.default.Text, {
                         __source: {
                             fileName: "src/components/movieView/movieView.jsx",
-                            lineNumber: 47
+                            lineNumber: 51
                         },
                         __self: this,
                         children: movie.Description
@@ -23288,7 +23292,7 @@ function MovieView(props) {
                         to: `/movies-director/${movie.Director.Name}`,
                         __source: {
                             fileName: "src/components/movieView/movieView.jsx",
-                            lineNumber: 48
+                            lineNumber: 52
                         },
                         __self: this,
                         children: /*#__PURE__*/ _jsxRuntime.jsxs(_buttonDefault.default, {
@@ -23296,7 +23300,7 @@ function MovieView(props) {
                             variant: "primary",
                             __source: {
                                 fileName: "src/components/movieView/movieView.jsx",
-                                lineNumber: 49
+                                lineNumber: 53
                             },
                             __self: this,
                             children: [
@@ -23309,7 +23313,7 @@ function MovieView(props) {
                         to: `/movies-genre/${movie.Genre.Name}`,
                         __source: {
                             fileName: "src/components/movieView/movieView.jsx",
-                            lineNumber: 51
+                            lineNumber: 55
                         },
                         __self: this,
                         children: /*#__PURE__*/ _jsxRuntime.jsxs(_buttonDefault.default, {
@@ -23317,7 +23321,7 @@ function MovieView(props) {
                             variant: "primary",
                             __source: {
                                 fileName: "src/components/movieView/movieView.jsx",
-                                lineNumber: 52
+                                lineNumber: 56
                             },
                             __self: this,
                             children: [
@@ -23329,7 +23333,7 @@ function MovieView(props) {
                     /*#__PURE__*/ _jsxRuntime.jsx("br", {
                         __source: {
                             fileName: "src/components/movieView/movieView.jsx",
-                            lineNumber: 54
+                            lineNumber: 58
                         },
                         __self: this
                     }),
@@ -23341,7 +23345,7 @@ function MovieView(props) {
                         ,
                         __source: {
                             fileName: "src/components/movieView/movieView.jsx",
-                            lineNumber: 56
+                            lineNumber: 60
                         },
                         __self: this,
                         children: "Remove"
@@ -23354,7 +23358,7 @@ function MovieView(props) {
                         ,
                         __source: {
                             fileName: "src/components/movieView/movieView.jsx",
-                            lineNumber: 58
+                            lineNumber: 62
                         },
                         __self: this,
                         children: "Favourite"
@@ -23365,7 +23369,7 @@ function MovieView(props) {
                         onClick: onBackClick,
                         __source: {
                             fileName: "src/components/movieView/movieView.jsx",
-                            lineNumber: 59
+                            lineNumber: 63
                         },
                         __self: this,
                         children: "Back"
