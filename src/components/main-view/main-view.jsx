@@ -73,7 +73,7 @@ import './main-view.scss';
         this.getUserData(authData.token, authData.user.Username);
     }
     
-    update() {
+    update = () => {
         let accessToken = localStorage.getItem('token');
         let userName = localStorage.getItem('user');
         this.getUserData(accessToken, userName);

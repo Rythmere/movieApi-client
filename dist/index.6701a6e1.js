@@ -22981,11 +22981,11 @@ class MainView extends _reactDefault.default.Component {
         this.getMovies(authData.token);
         this.getUserData(authData.token, authData.user.Username);
     }
-    update() {
+    update = ()=>{
         let accessToken = localStorage.getItem('token');
         let userName = localStorage.getItem('user');
         this.getUserData(accessToken, userName);
-    }
+    };
     render() {
         const { movies , user , userData , token  } = this.props;
         return(/*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.BrowserRouter, {
